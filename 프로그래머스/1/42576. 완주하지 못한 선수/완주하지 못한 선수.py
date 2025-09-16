@@ -1,10 +1,9 @@
-import heapq
 def solution(participant, completion):
-    heapq.heapify(participant)
-    heapq.heapify(completion)
-    while completion:
-        p = heapq.heappop(participant)
-        c = heapq.heappop(completion)
-        if p!=c:
-            return p
-    return heapq.heappop(participant)
+    counts = {}
+    for i in participant:
+        counts[i] = counts.get(i, 0) + 1
+    for j in completion:
+        counts[j] -= 1
+    for name, cnt in counts.items():
+        if cnt > 0:
+            return name

@@ -1,9 +1,12 @@
 def solution(participant, completion):
-    counts = {}
+    hashdict={}
+    hashcount=0
+    
     for i in participant:
-        counts[i] = counts.get(i, 0) + 1
+        hashdict[hash(i)]=i
+        hashcount += hash(i)
+    
     for j in completion:
-        counts[j] -= 1
-    for name, cnt in counts.items():
-        if cnt > 0:
-            return name
+        hashcount -= hash(j)
+    
+    return hashdict[hashcount] 

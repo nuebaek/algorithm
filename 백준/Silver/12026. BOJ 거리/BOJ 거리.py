@@ -2,17 +2,24 @@ import sys
 input = sys.stdin.readline
 
 n = int(input())
-arr = list(input().strip())
+arr = list(input().strip()) 
 
-prev = {'B': 'J', 'O': 'B', 'J': 'O'}
-dp = [1e9] * n
-dp[0] = 0
+d = [float('inf')] * n
+d[0] = 0
 
-for i in range(1, n):
-    for j in range(1, i+1):
-        if prev[arr[i]] == arr[i-j]:
-            v = dp[i-j] + j * j
-            if v < dp[i]:
-                dp[i] = v
-                
-print(dp[-1] if dp[-1] != 1e9 else -1)
+for i in range(n):
+    for j in range(i):
+        if d[j] == float('inf'):
+            continue
+            
+        if arr[i] == 'B' and arr[j] == 'J':
+            d[i] = min(d[i], d[j]+(i-j)*(i-j))
+        if arr[i] == 'O' and arr[j] == 'B':
+            d[i] = min(d[i], d[j]+(i-j)*(i-j))
+        if arr[i] == 'J' and arr[j] == 'O':
+            d[i] = min(d[i], d[j]+(i-j)*(i-j))
+
+if d[-1] == float('inf'):
+    print(-1)
+else:
+    print(d[-1])

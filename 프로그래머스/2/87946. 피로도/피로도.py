@@ -1,19 +1,25 @@
+from itertools import permutations
+
 def solution(k, dungeons):
-    visited = [False] * len(dungeons)
     answer = 0
-    
-    
-    def dfs(need, count):
-        nonlocal answer
-        if count > answer:
-            answer = count
-          
-        for i in range(len(dungeons)):
-            min_needed, cost = dungeons[i] 
-            if not visited[i] and need >= min_needed:
-                visited[i] = True
-                dfs(need-cost, count+1)
-                visited[i] = False
-                
-    dfs(k, 0)
+
+    for order in permutations(dungeons):
+        energy = k
+        count = 0
+
+        for required, cost in order:
+            if energy < required:
+                break
+
+            energy -= cost
+            count += 1
+
+        answer = max(answer, count)
+
     return answer
+
+
+# 1. 던전을 갈 수 있는 모든 순서로 나열한다.
+# 2. 각 순서대로 앞에서부터 실제로 탐험한다.
+# 3. 피로도가 부족하면 그 순서는 중단한다.
+# 4. 가장 많이 탐험한 횟수를 반환한다.

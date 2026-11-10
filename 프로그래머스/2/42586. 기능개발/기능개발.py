@@ -1,16 +1,23 @@
 import math
+
 def solution(progresses, speeds):
     answer = []
-    counts = [math.ceil((100-p)/s) for p, s in zip(progresses, speeds)]
-    while counts:
-        day = counts[0]
-        cnt = 0
-        while counts and counts[0] <= day:
-            cnt += 1
-            counts.pop(0)
-        answer.append(cnt)
+    counts = []
+    
+    for i in range(len(progresses)):
+        res = math.ceil((100-progresses[i])/speeds[i])
+        counts.append(res)
+        
+            
+    day = counts[0]
+    for i in range(len(counts)): 
+        if i == 0:
+            answer.append(1)
+        else:
+            if counts[i] <= day:
+                answer[-1] += 1
+            else:
+                answer.append(1)
+                day = counts[i]
+
     return answer
-
-
-#  올림, 내림 > math.ceil(), math.floor()
-#  반올림 > round()
